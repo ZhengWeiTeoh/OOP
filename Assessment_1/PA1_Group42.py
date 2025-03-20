@@ -1,9 +1,9 @@
+#Name: Teoh Zheng Wei
 #Student ID: 2400782
-#Group: 42
 #Program: 3E
 
+#Name: Wei Hanqi
 #Student ID: 2402165
-#Group: 42
 #Program: 3E
 
 
