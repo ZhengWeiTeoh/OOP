@@ -29,7 +29,7 @@ def categorize_performance(employees):
     
     return performance_counts
 
-#function to find top performer in each department
+#find best in each department
 def top_performers(employees):
     top_performer_by_dept = {}
     
@@ -46,7 +46,7 @@ def top_performers(employees):
     
     return top_performer_by_dept
 
-#fain execution
+#main execution
 input_file = 'employee_performance.csv'
 data = read_csv(input_file)
 
