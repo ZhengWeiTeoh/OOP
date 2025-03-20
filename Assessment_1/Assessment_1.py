@@ -1,7 +1,7 @@
 # Function to read CSV file
-def read_csv(filename):
+def read_csv(employee_performance):
     data = []
-    with open(filename, 'r') as file:
+    with open(employee_performance, 'r') as file:
         lines = file.readlines()
         headers = lines[0].strip().split(',')
         for line in lines[1:]:
