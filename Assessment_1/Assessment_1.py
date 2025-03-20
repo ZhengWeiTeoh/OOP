@@ -1,4 +1,4 @@
-# Function to read CSV file
+#read CSV file
 def read_csv(employee_performance):
     data = []
     with open(employee_performance, 'r') as file:
@@ -9,7 +9,7 @@ def read_csv(employee_performance):
             data.append(dict(zip(headers, values)))
     return data
 
-# Function to categorize employee performance
+#categorize employee performance
 def categorize_performance(employees):
     performance_counts = {'Excellent': 0, 'Good': 0, 'Average': 0, 'Poor': 0}
     
@@ -29,7 +29,7 @@ def categorize_performance(employees):
     
     return performance_counts
 
-# Function to find top performer in each department
+#function to find top performer in each department
 def top_performers(employees):
     top_performer_by_dept = {}
     
@@ -46,17 +46,17 @@ def top_performers(employees):
     
     return top_performer_by_dept
 
-# Main execution
+#fain execution
 input_file = 'employee_performance.csv'
 data = read_csv(input_file)
 
-# Get performance summary
+#get performance summary
 performance_summary = categorize_performance(data)
 print("Performance Rating Summary:")
 for rating, count in performance_summary.items():
     print(f"- {rating}: {count} employees")
 
-# Get top performers per department
+#get top performers per department
 top_performers_by_dept = top_performers(data)
 print("\nTop Performers by Department:")
 for dept, (name, sales) in top_performers_by_dept.items():
