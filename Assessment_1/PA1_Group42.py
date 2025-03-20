@@ -1,63 +1,59 @@
-#read CSV file
-def read_csv(employee_performance):
-    data = []
-    with open(employee_performance, 'r') as file:
-        lines = file.readlines()
-        headers = lines[0].strip().split(',')
-        for line in lines[1:]:
-            values = [v.strip() for v in line.strip().split(',')]
-            data.append(dict(zip(headers, values)))
-    return data
 
-#categorize employee performance
-def categorize_performance(employees):
-    performance_counts = {'Excellent': 0, 'Good': 0, 'Average': 0, 'Poor': 0}
+#read the content of the file
+data = []
+with open('employee_performance.csv') as f:
+    lines = f.readlines()
     
-    for record in employees:
-        try:
-            sales = float(record['Sales'])
-            if sales >= 100000:
-                performance_counts['Excellent'] += 1
-            elif sales >= 80000:
-                performance_counts['Good'] += 1
-            elif sales >= 60000:
-                performance_counts['Average'] += 1
-            else:
-                performance_counts['Poor'] += 1
-        except ValueError:
-            continue
-    
-    return performance_counts
+#split the content into a list
+for line in lines[1:]:
+    y = line.split(',')
+    data = data + [[y[0],                               #employee ID
+                   y[1],                                #name
+                   y[2].strip().replace(' ', ''),       #department
+                   int(y[3])]]                          #sales
 
-#find best in each department
-def top_performers(employees):
-    top_performer_by_dept = {}
-    
-    for record in employees:
-        try:
-            sales = float(record['Sales'])
-            department = record['Department']
-            name = record['Name']
+#employee performance rating
+def performance_rating(data):
+    Excellent = 0 
+    Good = 0
+    Average = 0
+    Poor = 0
+
+    for x in data:
+        if x[3] > 100000:
+            Excellent += 1
+        if 80000 <= x[3] < 100000:
+            Good += 1
+        if 60000 <= x[3] < 80000:
+            Average += 1
+        if x[3] < 60000:
+            Poor += 1
+
+    print(f'\nExcellent: {Excellent} employees')
+    print(f'Good: {Good} employees')
+    print(f'Average: {Average} employees')
+    print(f'Poor: {Poor} employees')
+
+    return
+
+#top performers by department
+def top_performance(data):
+    top_performer_by_department = {}
+
+    print('\nTop Performers by Department:')
+
+    for x in data:
+            sales = int(x[3])
+            department = x[2]
+            name = x[1]
             
-            if department not in top_performer_by_dept or sales > top_performer_by_dept[department][1]:
-                top_performer_by_dept[department] = (name, sales)
-        except ValueError:
-            continue
+            if department not in top_performer_by_department or sales > top_performer_by_department[department][1]:
+                top_performer_by_department[department] = (name, sales)
     
-    return top_performer_by_dept
+    for dept, (name, sales) in top_performer_by_department.items():
+        print(f"- {dept}: {name} (RM {sales} sales)")
 
-#main execution
-input_file = 'employee_performance.csv'
-data = read_csv(input_file)
+    return
 
-#get performance summary
-performance_summary = categorize_performance(data)
-print("Performance Rating Summary:")
-for rating, count in performance_summary.items():
-    print(f"- {rating}: {count} employees")
-
-#get top performers per department
-top_performers_by_dept = top_performers(data)
-print("\nTop Performers by Department:")
-for dept, (name, sales) in top_performers_by_dept.items():
-    print(f"- {dept}: {name} (RM {sales} sales)")
+performance_rating(data)
+top_performance(data)
