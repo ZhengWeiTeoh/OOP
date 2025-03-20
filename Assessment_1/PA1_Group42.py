@@ -1,3 +1,11 @@
+#Student ID: 2400782
+#Group: 42
+#Program: 3E
+
+#Student ID: 2402165
+#Group: 42
+#Program: 3E
+
 
 #read the content of the file
 data = []
