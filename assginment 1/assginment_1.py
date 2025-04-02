@@ -8,7 +8,7 @@ def read_transactions(file_path):
             transactions.append(row)
     return transactions
 
-#remove empty and duplicates from the transactions list
+#remove duplicate, empty and negative values
 def clean_transactions(transactions):
     cleaned = {}
     for txn in transactions:
@@ -28,7 +28,7 @@ def clean_transactions(transactions):
     
     return list(cleaned.values())
 
-#remove error in merchant_city and use_chip columns
+#validate use_chip
 def validate_transactions(transactions):
     valid_transactions = []
     for txn in transactions:
@@ -40,7 +40,7 @@ def validate_transactions(transactions):
         valid_transactions.append(txn)
     return valid_transactions
 
-#reformat date from YYYY MM DD to DD MM YYYY
+#reformat date
 def reformat_date(transactions):
     for txn in transactions:
         date_parts = txn['date'].split(' ')
@@ -51,7 +51,7 @@ def reformat_date(transactions):
 def sort_transactions(transactions):
     return sorted(transactions, key=lambda x: (x['merchant_id'], x['date'], x['client_id']))
 
-#save result to csv file
+#export final result
 def save_transactions(file_path, transactions):
     if not transactions:
         return
