@@ -34,8 +34,8 @@ def validate_transactions(transactions):
     for txn in transactions:
         if txn['use_chip'] not in ('Swipe Transaction', 'Online Transaction'):
             continue
-        if (txn['use_chip'] == 'Online Transaction' and txn['merchant_city'] != 'ONLINE' or 'Online' or 'online') or\
-           (txn['use_chip'] == 'Swipe Transaction' and txn['merchant_city'] == 'ONLINE' or 'Online' or 'online'):
+        if (txn['use_chip'] == 'Online Transaction' and txn['merchant_city'] != 'ONLINE' and txn['merchant_city'] != 'Online' and txn['merchant_city'] != 'online') or\
+           (txn['use_chip'] == 'Swipe Transaction' and txn['merchant_city'] == 'ONLINE' and txn['merchant_city'] == 'Online' and txn['merchant_city'] == 'online'):
             continue
         valid_transactions.append(txn)
     return valid_transactions
