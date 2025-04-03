@@ -1,3 +1,7 @@
+#Name: Teoh Zheng Wei
+#Student ID: 2400782
+#Course: 3E
+
 import csv
 
 def read_transactions(file_path):
