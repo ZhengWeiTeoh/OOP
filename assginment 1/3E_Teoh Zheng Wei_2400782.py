@@ -11,41 +11,41 @@ def read_transactions(file_path):
 #remove duplicate, empty and negative values
 def clean_transactions(transactions):
     cleaned = {}
-    for txn in transactions:
-        if not all(txn[key] for key in ['date', 'client_id', 'card_id', 'amount', 'merchant_id', 'merchant_city', 'use_chip']):
+    for data in transactions:
+        if not all(data[key] for key in ['date', 'client_id', 'card_id', 'amount', 'merchant_id', 'merchant_city', 'use_chip']):
             continue
         
         try:
-            txn['amount'] = float(txn['amount'].replace('$', ''))
-            if txn['amount'] < 0:
+            data['amount'] = float(data['amount'].replace('$', ''))
+            if data['amount'] < 0:
                 continue
         except ValueError:
             continue
         
-        key = (txn['date'], txn['client_id'], txn['card_id'], txn['amount'])
-        if key not in cleaned or txn['date'] > cleaned[key]['date']:
-            cleaned[key] = txn
+        key = (data['date'], data['client_id'], data['card_id'], data['amount'])
+        if key not in cleaned or data['date'] > cleaned[key]['date']:
+            cleaned[key] = data
     
     return list(cleaned.values())
 
 #validate use_chip
 def validate_transactions(transactions):
     valid_transactions = []
-    for txn in transactions:
-        if txn['use_chip'] not in ('Swipe Transaction', 'Online Transaction'):
+    for use_chip in transactions:
+        if use_chip['use_chip'] not in ('Swipe Transaction', 'Online Transaction'):
             continue
-        if (txn['use_chip'] == 'Online Transaction' and txn['merchant_city'] != 'ONLINE' and txn['merchant_city'] != 'Online' and txn['merchant_city'] != 'online') or\
-           (txn['use_chip'] == 'Swipe Transaction' and txn['merchant_city'] == 'ONLINE' and txn['merchant_city'] == 'Online' and txn['merchant_city'] == 'online'):
+        if (use_chip['use_chip'] == 'Online Transaction' and use_chip['merchant_city'] != 'ONLINE' and use_chip['merchant_city'] != 'Online' and use_chip['merchant_city'] != 'online') or\
+           (use_chip['use_chip'] == 'Swipe Transaction' and use_chip['merchant_city'] == 'ONLINE' and use_chip['merchant_city'] == 'Online' and use_chip['merchant_city'] == 'online'):
             continue
-        valid_transactions.append(txn)
+        valid_transactions.append(use_chip)
     return valid_transactions
 
 #reformat date
 def reformat_date(transactions):
-    for txn in transactions:
-        date_parts = txn['date'].split(' ')
+    for date in transactions:
+        date_parts = date['date'].split(' ')
         y, m, d = date_parts[0].split('-')
-        txn['date'] = f"{d}-{m}-{y} {date_parts[1]}"
+        date['date'] = f"{d}-{m}-{y} {date_parts[1]}"
 
 #sort the data
 def sort_transactions(transactions):
@@ -58,9 +58,9 @@ def save_transactions(file_path, transactions):
     with open(file_path, 'w', newline = '') as file:
         writer = csv.DictWriter(file, fieldnames=transactions[0].keys())
         writer.writeheader()
-        for txn in transactions:
-            txn['amount'] = f"${txn['amount']:.2f}" 
-            writer.writerow(txn)
+        for money in transactions:
+            money['amount'] = f"${money['amount']:.2f}" 
+            writer.writerow(money)
 
 def main():
     input_file = 'transactions.csv'
