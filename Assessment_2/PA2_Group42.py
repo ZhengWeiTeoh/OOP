@@ -30,8 +30,9 @@ class Student(Person):
             return "Not ready for graduation"
 
     def get_summary(self):
-        return (f"Student ID: {self._person_id}, Level: Undergraduate, GPA: {self._gpa}, "
-                f"Credits Completed: {self._credits_completed}, Graduation Status: {self.graduation_readiness()}")
+        return (f"\nStudent Details:\n"
+                f"Student ID: {self._person_id}, Level: Undergraduate, GPA: {self._gpa}\n"
+                f"Credits Completed: {self._credits_completed}, Graduation Status: {self.graduation_readiness()}\n")
 
 # Sub Class: MasterStudent
 class MasterStudent(Person):
@@ -48,7 +49,8 @@ class MasterStudent(Person):
             return "Not ready for graduation"
 
     def get_summary(self):
-        return (f"Student ID: {self._person_id}, Level: Master\n"
+        return (f"Student Details:\n"
+                f"Student ID: {self._person_id}, Level: Master\n"
                 f"Thesis Title: {self._thesis_title}\n"
                 f"Publications: {self._publications}\n"
                 f"Years of Study: {self._study_duration}\n"
@@ -83,7 +85,7 @@ def get_students_ready_for_graduation(students):
 
 # Show probation list
 def show_probation_list(students):
-    print("Probation List (GPA < 2.0):")
+    print("\nProbation List (GPA < 2.0):")
     for student in students:
         if isinstance(student, Student) and student._gpa < 2.0:
             print(f"- {student._person_id}: GPA {student._gpa:.2f}")
@@ -95,7 +97,7 @@ def get_student_by_id(students, student_id):
             print(student.get_summary())
             return
         
-    print(f"Invalid student ID: {student_id}")
+    print(f"Invalid student ID: {student_id}\n")
 
 # Main
 uni_students = load_data("oop_uni_students.csv")
