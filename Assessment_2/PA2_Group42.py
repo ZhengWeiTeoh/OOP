@@ -95,7 +95,6 @@ def get_student_by_id(students, student_id):
             return
     print(f"Invalid student ID: {student_id}")
 
-
 # Main
 uni_students = load_data("oop_uni_students.csv")
 get_students_ready_for_graduation(uni_students)
