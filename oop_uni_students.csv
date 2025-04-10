@@ -1,0 +1,51 @@
+Student ID,Level,Credits Completed,GPA,Thesis Title,Publications,Study Duration
+S0001,Undergraduate,100,3.2,,0,0
+M0002,Master,0,0,Machine Learning Applications,1,2
+S0003,Undergraduate,130,3.9,,0,0
+S0004,Undergraduate,95,2.5,,0,0
+M0005,Master,0,0,Deep Learning for Healthcare,2,2.5
+S0006,Undergraduate,110,3.4,,0,0
+S0007,Undergraduate,110,3.0,,0,0
+M0008,Master,0,0,Quantum Computing,0,2
+S0009,Undergraduate,120,3.45,,0,0
+S0010,Undergraduate,85,3.3,,0,0
+M0011,Master,0,0,Natural Language Processing,1,1.5
+S0012,Undergraduate,95,3.1,,0,0
+S0013,Undergraduate,102,4.0,,0,0
+M0014,Master,0,0,Blockchain Technologies,0,2
+S0015,Undergraduate,114,3.5,,0,0
+S0016,Undergraduate,110,2.9,,0,0
+M0017,Master,0,0,Data Science,1,0.5
+S0018,Undergraduate,98,3.4,,0,0
+M0019,Master,0,0,Cybersecurity,0,1.5
+S0020,Undergraduate,90,1.95,,0,0
+S0021,Undergraduate,90,3.4,,0,0
+S0022,Undergraduate,110,2.8,,0,0
+M0023,Master,0,0,Autonomous Systems,0,2.5
+S0024,Undergraduate,122,1.9,,0,0
+S0025,Undergraduate,120,2.0,,0,0
+M0026,Master,0,0,Human-Computer Interaction,1,2
+S0027,Undergraduate,75,3.1,,0,0
+S0028,Undergraduate,100,2.7,,0,0
+S0029,Undergraduate,115,2.6,,0,0
+M0030,Master,0,0,Bioinformatics,1,0.5
+S0031,Undergraduate,68,3.2,,0,0
+S0032,Undergraduate,105,2.6,,0,0
+S0033,Undergraduate,125,1.85,,0,0
+M0034,Master,0,0,Reinforcement Learning,2,3
+S0035,Undergraduate,90,3.0,,0,0
+M0036,Master,0,0,IoT Security,1,2
+S0037,Undergraduate,95,2.4,,0,0
+S0038,Undergraduate,100,3.6,,0,0
+M0039,Master,0,0,Medical Image Processing,1,1.5
+S0040,Undergraduate,65,2.5,,0,0
+S0041,Undergraduate,80,3.9,,0,0
+M0042,Master,0,0,Edge Computing,0,2
+S0043,Undergraduate,105,1.8,,0,0
+S0044,Undergraduate,110,3.2,,0,0
+M0045,Master,0,0,Embedded Systems,1,1.5
+S0046,Undergraduate,100,3.3,,0,0
+S0047,Undergraduate,120,2.0,,0,0
+M0048,Master,0,0,High-Performance Computing,1,0.5
+S0049,Undergraduate,140,3.0,,0,0
+M0050,Master,0,0,Swarm Intelligence,0,2

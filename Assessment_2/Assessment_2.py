@@ -1,85 +1,203 @@
-# Base Class: Person 
-class Person: 
-    def __init__(self, person_id, name, age): 
-        self.person_id = person_id 
-        self.name = name 
-        self.age = int(age) 
-        
-    def display_info(self): 
-        print(f"ID: {self.person_id}, Name: {self.name}, Age: {self.age}") 
-        
-# Subclass: Student 
-class Student(Person): 
-    def __init__(self, student_id, name, age, major, cgpa): 
-        super().__init__(student_id, name, age) 
-        self.major = major 
-        self.cgpa = float(cgpa) if cgpa else 0.0 # Convert to float 
-        
-    def display_info(self): 
-        print(f"ID: {self.person_id}, Name: {self.name}, Age: {self.age}, Role: Student, " 
-              f"Major: {self.major}, CGPA: {self.cgpa:.2f}") 
-        
-# Subclass: Staff 
-class Staff(Person): 
-    def __init__(self, staff_id, name, age, major, years_experience): 
-        super().__init__(staff_id, name, age) 
-        self.major = major 
-        self.years_experience = int(years_experience) if years_experience else 0 # Convert to int 
-        
-    def display_info(self): 
-        print(f"ID: {self.person_id}, Name: {self.name}, Age: {self.age}, Role: Staff, " 
-              f"Major: {self.major}, Experience: {self.years_experience} years") 
-        
-# Function to load data from CSV file 
-def load_data(filename):
-    people = [] 
-    try: 
-        with open(filename, mode='r', encoding='utf-8') as file: 
-            lines = file.readlines() 
-            headers = lines[0].strip().split(",") # Extract headers 
-            for line in lines[1:]: 
-                data = line.strip().split(",") # Read each row 
-                person_data = dict(zip(headers, data)) # Map headers 
+import csv
 
-                major = person_data["Major"] 
-                cgpa = person_data["CGPA"] 
-                years_experience = person_data["YearsExperience"]
-                if cgpa: 
-                    person = Student(person_data["ID"], person_data["Name"], person_data["Age"], major, cgpa) 
+#import csv
 
-                elif years_experience: 
-                    person = Staff(person_data["ID"], person_data["Name"], person_data["Age"], major, years_experience) 
-                
-                else: 
-                    person = Person(person_data["ID"], person_data["Name"], person_data["Age"]) 
-                
-                people.append(person) 
+# Defines a class hierarchy for students. Including undergraduate and master's students.
+class Person:
+    def __init__(self, person_id):
+        self._person_id = person_id
+
+    def get_summary(self):
+        return f"Person ID: {self._person_id}"
+
+# Defines a class for undergraduate students, inheriting from Person.
+class Student(Person):
+    def __init__(self, person_id, credits_completed, gpa):
+        super().__init__(person_id)
+        self._credits_completed = credits_completed
+        self._gpa = gpa
+
+    def graduation_readiness(self):
+        if self._credits_completed >= 120 and self._gpa >= 2.0:
+            return "Ready for graduation"
+        else:
+            return "Not ready for graduation"
+
+    def get_summary(self):
+        return (f"Student ID: {self._person_id}, Level: Undergraduate, GPA: {self._gpa}, "
+                f"Credits Completed: {self._credits_completed}, Graduation Status: {self.graduation_readiness()}")
+
+class MasterStudent(Person):
+    def __init__(self, person_id, thesis_title, publications, study_duration):
+        super().__init__(person_id)
+        self._thesis_title = thesis_title
+        self._publications = publications
+        self._study_duration = study_duration
+
+    def graduation_readiness(self):
+        if self._publications >= 1 and self._study_duration >= 2:
+            return "Ready for graduation"
+        else:
+            return "Not ready for graduation"
+
+    def get_summary(self):
+        return (f"Student ID: {self._person_id}, Level: Master\n"
+                f"Thesis Title: {self._thesis_title}\n"
+                f"Publications: {self._publications}\n"
+                f"Years of Study: {self._study_duration}\n"
+                f"Graduation Status: {self.graduation_readiness()}")
+
+# Load data from CSV file
+def load_data(file_name):
+    students = []
+    with open(file_name, mode='r') as file:
+        reader = csv.reader(file)
+        next(reader)  # skip the header
+        for row in reader:
+            person_id, level, credits_completed, gpa, thesis_title, publications, study_duration = row
+            credits_completed = int(credits_completed)
+            gpa = float(gpa)
+            publications = int(publications)
+            study_duration = float(study_duration)
             
-        print("Data successfully loaded from", filename) 
-    except FileNotFoundError: 
-        print(f"File '{filename}' not found.") 
-    return people 
+            if level == 'Undergraduate':
+                students.append(Student(person_id, credits_completed, gpa))
+            elif level == 'Master':
+                students.append(MasterStudent(person_id, thesis_title, publications, study_duration))
+    return students
 
-# Function to display all people 
-def display_people(people): 
-    print("\nPeople List:") 
-    for person in people: 
-        person.display_info() # Function to get students with CGPA < 2.0 
-        
-def get_students_below_2_cgpa(people): 
-    print("\nStudents with CGPA < 2.0:") 
-    for person in people: 
-        if isinstance(person, Student) and person.cgpa < 2.0: 
-            person.display_info() # Function to get staff with ≥10 years experience 
+def get_students_ready_for_graduation(students):
+    print("Students Ready for Graduation:")
+    for student in students:
+        if student.graduation_readiness() == "Ready for graduation":
+            print(f"- {student._person_id}: Ready for graduation.")
 
-def get_staff_with_10_plus_years(people): 
-    print("\nStaff with >= 10 years of experience:") 
-    for person in people: 
-        if isinstance(person, Staff) and person.years_experience >= 10: 
-            person.display_info() 
+def show_probation_list(students):
+    print("Probation List (GPA < 2.0):")
+    for student in students:
+        if isinstance(student, Student) and student._gpa < 2.0:
+            print(f"- {student._person_id}: GPA {student._gpa:.2f}")
 
-# Main Execution 
-people = load_data("persons.csv") 
-display_people(people) 
-get_students_below_2_cgpa(people) 
-get_staff_with_10_plus_years(people)
+def get_student_by_id(students, student_id):
+    for student in students:
+        if student._person_id == student_id:
+            print(student.get_summary())
+            return
+    print(f"Invalid student ID: {student_id}")
+
+# Example usage
+if __name__ == "__main__":
+    # Load students from CSV file
+    uni_students = load_data("oop_uni_students.csv")
+
+    # Get students ready for graduation
+    get_students_ready_for_graduation(uni_students)
+
+    # Show probation list
+    show_probation_list(uni_students)
+
+    # Retrieve details for specific students by ID
+    get_student_by_id(uni_students, 'S0001')  # Example valid ID
+    get_student_by_id(uni_students, 'S11')    # Invalid ID
+    get_student_by_id(uni_students, 'M0002')  # Example valid ID
+class Person:
+    def __init__(self, person_id):
+        self._person_id = person_id
+
+    def get_summary(self):
+        return f"Person ID: {self._person_id}"
+
+#sub class student
+class Student(Person):
+    def __init__(self, person_id, credits_completed, gpa):
+        super().__init__(person_id)
+        self._credits_completed = credits_completed
+        self._gpa = gpa
+
+    def graduation_readiness(self):
+        if self._credits_completed >= 120 and self._gpa >= 2.0:
+            return "Ready for graduation"
+        else:
+            return "Not ready for graduation"
+
+    def get_summary(self):
+        return (f"Student ID: {self._person_id}, Level: Undergraduate, GPA: {self._gpa}, "
+                f"Credits Completed: {self._credits_completed}, Graduation Status: {self.graduation_readiness()}")
+
+#sub class masterstudent
+class MasterStudent(Person):
+    def __init__(self, person_id, thesis_title, publications, study_duration):
+        super().__init__(person_id)
+        self._thesis_title = thesis_title
+        self._publications = publications
+        self._study_duration = study_duration
+
+    def graduation_readiness(self):
+        if self._publications >= 1 and self._study_duration >= 2:
+            return "Ready for graduation"
+        else:
+            return "Not ready for graduation"
+
+    def get_summary(self):
+        return (f"Student ID: {self._person_id}, Level: Master\n"
+                f"Thesis Title: {self._thesis_title}\n"
+                f"Publications: {self._publications}\n"
+                f"Years of Study: {self._study_duration}\n"
+                f"Graduation Status: {self.graduation_readiness()}")
+
+# Load data from CSV file
+def load_data(file_name):
+    students = []
+    with open(file_name, mode='r') as file:
+        reader = csv.reader(file)
+        next(reader)  # skip the header
+        for row in reader:
+            person_id, level, credits_completed, gpa, thesis_title, publications, study_duration = row
+            credits_completed = int(credits_completed)
+            gpa = float(gpa)
+            publications = int(publications)
+            study_duration = float(study_duration)
+            
+            if level == 'Undergraduate':
+                students.append(Student(person_id, credits_completed, gpa))
+            elif level == 'Master':
+                students.append(MasterStudent(person_id, thesis_title, publications, study_duration))
+    return students
+
+# Function to get students ready for graduation
+def get_students_ready_for_graduation(students):
+    print("Students Ready for Graduation:")
+    for student in students:
+        if student.graduation_readiness() == "Ready for graduation":
+            print(f"- {student._person_id}: Ready for graduation.")
+
+# Function to show probation list
+def show_probation_list(students):
+    print("Probation List (GPA < 2.0):")
+    for student in students:
+        if isinstance(student, Student) and student._gpa < 2.0:
+            print(f"- {student._person_id}: GPA {student._gpa:.2f}")
+
+# Function to retrieve student details by ID
+def get_student_by_id(students, student_id):
+    for student in students:
+        if student._person_id == student_id:
+            print(student.get_summary())
+            return
+    print(f"Invalid student ID: {student_id}")
+
+# Example usage
+if __name__ == "__main__":
+    # Load students from CSV file
+    uni_students = load_data("oop_uni_students.csv")
+
+    # Get students ready for graduation
+    get_students_ready_for_graduation(uni_students)
+
+    # Show probation list
+    show_probation_list(uni_students)
+
+    # Retrieve details for specific students by ID
+    get_student_by_id(uni_students, 'S0001')  # Example valid ID
+    get_student_by_id(uni_students, 'S11')    # Invalid ID
+    get_student_by_id(uni_students, 'M0002')  # Example valid ID
