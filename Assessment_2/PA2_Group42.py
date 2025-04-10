@@ -32,7 +32,8 @@ class Student(Person):
     def get_summary(self):
         return (f"\nStudent Details:\n"
                 f"Student ID: {self._person_id}, Level: Undergraduate, GPA: {self._gpa}\n"
-                f"Credits Completed: {self._credits_completed}, Graduation Status: {self.graduation_readiness()}\n")
+                f"Credits Completed: {self._credits_completed}\n"
+                f"Graduation Status: {self.graduation_readiness()}\n")
 
 # Sub Class: MasterStudent
 class MasterStudent(Person):
