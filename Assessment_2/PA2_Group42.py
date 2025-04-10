@@ -1,3 +1,11 @@
+# Name :Teoh Zheng Wei
+# Student ID: 2400782
+# Program: 3E
+
+# Name :Wei Hanqi
+# Student ID: 2402165
+# Program: 3E
+
 import csv
 
 # Base Class: Person
