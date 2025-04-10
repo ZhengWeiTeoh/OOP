@@ -57,9 +57,9 @@ class MasterStudent(Person):
 # Load data from CSV file
 def load_data(file_name):
     students = []
-    with open(file_name, mode='r') as file:
+    with open(file_name, 'r') as file:
         reader = csv.reader(file)
-        next(reader)  # skip the header
+        next(reader)
         for row in reader:
             person_id, level, credits_completed, gpa, thesis_title, publications, study_duration = row
             credits_completed = int(credits_completed)
@@ -71,6 +71,7 @@ def load_data(file_name):
                 students.append(Student(person_id, credits_completed, gpa))
             elif level == 'Master':
                 students.append(MasterStudent(person_id, thesis_title, publications, study_duration))
+
     return students
 
 # Get students ready for graduation
@@ -93,6 +94,7 @@ def get_student_by_id(students, student_id):
         if student._person_id == student_id:
             print(student.get_summary())
             return
+        
     print(f"Invalid student ID: {student_id}")
 
 # Main
